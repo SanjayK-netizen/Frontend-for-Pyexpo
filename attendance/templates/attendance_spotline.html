@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Spotline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #D40000 0%, #b80000 100%);
+            color: white;
+            padding: 15px 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(212, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(212, 0, 0, 0.1);
+            overflow: hidden;
+            border-top: 5px solid #D40000;
+        }
+
+        .table-header {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .table-header h2 {
+            color: #D40000;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .table-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #D40000 0%, #b80000 100%);
+            color: white;
+        }
+
+        thead th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #fff8f8;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-present {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .status-absent {
+            display: inline-block;
+            background: #ffebee;
+            color: #D40000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #D40000 0%, #b80000 100%);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 0, 0, 0.3);
+            margin-top: 25px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 0, 0, 0.4);
+            background: linear-gradient(135deg, #b80000 0%, #900000 100%);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #D40000;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #D40000;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            color: #333;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .table-card {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            thead th {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
+
+            tbody td {
+                padding: 10px 8px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>📊 Today's Attendance Report</h1>
+        <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+        <div class="table-card">
+            <div class="table-header">
+                <h2>Attendance Spotline</h2>
+                <p>Daily attendance record for all students</p>
+            </div>
+
+            {% if attendance_data %}
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-label">Total Students</span>
+                    <span class="stat-value">{{ attendance_data|length }}</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Present</span>
+                    <span class="stat-value" style="color: #2e7d32;">
+                        {% with present=attendance_data|dictsort:"status"|length %}
+                            {{ present }}
+                        {% endwith %}
+                    </span>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Roll No</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance_data %}
+                    <tr>
+                        <td>{{ record.name }}</td>
+                        <td>{{ record.roll_no }}</td>
+                        <td>{{ record.department }}</td>
+                        <td>
+                            {% if record.status == "Present" %}
+                            <span class="status-present">✓ Present</span>
+                            {% else %}
+                            <span class="status-absent">✗ Absent</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <p>No attendance records found for today</p>
+            </div>
+            {% endif %}
+
+            <a href="{% url 'dashboard' %}" class="back-btn">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

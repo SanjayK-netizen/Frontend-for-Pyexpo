@@ -1,0 +1,6 @@
+Django>=4.2
+opencv-python
+face_recognition
+dlib
+numpy
+Pillow
